@@ -1,8 +1,5 @@
 ---
 
-dependency:
-  name: galaxy
-
 driver:
   name: docker
 
@@ -11,16 +8,59 @@ lint: |
   yamllint .
   ansible-lint
 
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/default/requirements.yml
+    requirements-file: molecule/default/requirements.yml
+
 platforms:
-  - name: pirat_tool
-    image: ubuntu:18.04
-    command: ""
+  - name: instance
+    image: geerlingguy/docker-ubuntu1804-ansible
+    pre_build_image: true
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
-    pre_build_image: true
 
 provisioner:
   name: ansible
   playbooks:
+    prepare: prepare.yml
     converge: converge.yml
+
+scenario:
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  check_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - dependency
+    - create
+    - prepare
+    - converge
+  destroy_sequence:
+    - dependency
+    - cleanup
+    - destroy
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - verify
+    - cleanup
+    - destroy
