@@ -1,0 +1,26 @@
+---
+# tasks file for ansible-role-pirat-tool
+
+- include_tasks: preflight.yml
+
+- name: ensure deployment directory exists
+  file:
+    path: "{{ pirat_deployment_directory }}"
+    state: directory
+    owner: "{{ pirat_deployment_user }}"
+    group: "{{ pirat_deployment_group }}"
+    mode: 0750
+    recurse: true
+
+- name: deploy docker-compose.yml
+  template:
+      dest: "{{ pirat_deployment_directory }}/docker-compose.yml"
+      src: docker-compose.yml.j2
+      owner: "{{ pirat_deployment_user }}"
+      group: "{{ pirat_deployment_group }}"
+      mode: 0640
+      validate: docker-compose -f %s config -q
+      output_encoding: utf-8
+      backup: true
+
+- include_tasks: systemd.yml

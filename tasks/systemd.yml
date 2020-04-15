@@ -1,0 +1,36 @@
+---
+
+- name: deploy systemd service file
+  template:
+      dest: "/etc/systemd/system/{{ pirat_systemd_service_name }}.service"
+      src: pirat.service.j2
+      owner: root
+      group: root
+      mode: 0640
+      output_encoding: utf-8
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: true
+
+- name: enable pirat systemd service if set
+  systemd:
+    name: "{{ pirat_systemd_service_name }}"
+    enabled: "{{ pirat_systemd_service_enable }}"
+
+- name: start pirat systemd service
+  systemd:
+    name: "{{ pirat_systemd_service_name }}"
+    state: started
+  async: 120
+  poll: 5
+  register: pirat_app_start
+  when: pirat_systemd_service_start
+
+- name: wait for pirat systemd service to have finished startup
+  async_status:
+    jid: "{{ pirat_app_start.ansible_job_id }}"
+  register: pirat_app_start_result
+  until: pirat_app_start_result.finished
+  retries: 10
+  when: pirat_systemd_service_start

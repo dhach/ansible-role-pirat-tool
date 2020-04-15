@@ -1,0 +1,32 @@
+---
+language: python
+
+env:
+  global:
+    - ROLE_NAME=dhach.pirat_tool
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb https://download.docker.com/linux/ubuntu bionic stable'
+        key_url: 'https://download.docker.com/linux/gpg'
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg2
+      - python-pip
+      - docker-ce
+      - docker-compose
+      - python3-pip
+
+before_install:
+  - sudo apt-get --qq update
+
+install:
+  - pip3 install molecule yamllint ansible-lint docker
+
+script:
+  - molecule test
+
+# notifications:
+  # webhooks: https://galaxy.ansible.com/api/v1/notifications/

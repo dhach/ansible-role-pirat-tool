@@ -1,0 +1,19 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Pandemic Import Resource Allocation Tool
+Requires=docker.service
+After=docker.service
+
+[Service]
+User={{ pirat_deployment_user }}
+Group={{ pirat_deployment_group }}
+# RootDirectory=/
+WorkingDirectory={{ pirat_deployment_directory }}
+ExecStartPre={{ docker_compose_path }} pull
+ExecStartPre={{ docker_compose_path }} down
+ExecStart={{ docker_compose_path }} up
+ExecStop={{ docker_compose_path }} down
+
+[Install]
+WantedBy=multi-user.target

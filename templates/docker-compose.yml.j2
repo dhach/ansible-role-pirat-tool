@@ -1,0 +1,96 @@
+{{ ansible_managed | comment }}
+
+version: '3'
+services:
+
+  frontend:
+    image: {{ pirat_frontend_docker_image }}:{{ pirat_frontend_docker_image_tag }}
+    depends_on:
+      - backend
+    networks:
+      - app
+    ports:
+      - {{ pirat_frontend_docker_listen_ip }}:{{ pirat_frontend_docker_listen_port }}:8081
+{% if pirat_frontend_docker_environment_additional is iterable and pirat_frontend_docker_environment_additional|length > 0 %}
+    environment:
+{% for env in pirat_frontend_docker_environment_additional %}
+      - {{ env }}
+{% endfor %}
+{% endif %}
+{% if pirat_frontend_docker_volumes is iterable and pirat_frontend_docker_volumes|length > 0 %}
+    volumes:
+{% for volume in pirat_frontend_docker_volumes %}
+      - {{ volume }}
+{% endfor %}
+{% endif %}
+
+  backend:
+    image: {{ pirat_backend_docker_image }}:{{ pirat_backend_docker_image_tag }}
+{% if pirat_postgres_use_docker is sameas true %}
+    depends_on:
+      - postgres
+{% endif %}
+    networks:
+      - app
+{% if pirat_postgres_use_docker is sameas true %}
+      - database
+{% endif %}
+{% if pirat_backend_docker_map_port is sameas true %}
+    ports:
+      - {{ pirat_backend_docker_listen_ip }}:{{ pirat_backend_docker_listen_port }}:5000
+{% endif %}
+    environment:
+      - PIRAT_HOST={{ pirat_url }}
+      - PIRAT_ADMIN_KEY={{ pirat_backend_admin_key }}
+      - PIRAT_CONNECTION=Server={{ pirat_database_host }};Port={{ pirat_database_port }};Database={{ pirat_database_dbname }};User ID={{ pirat_database_user }};Password={{ pirat_database_password }}
+      - PIRAT_SENDER_MAIL_ADDRESS={{ pirat_mail_sender_address }}
+      - PIRAT_SENDER_MAIL_SMTP_HOST={{ pirat_mail_smtp_host }}
+      - PIRAT_SENDER_MAIL_USERNAME={{ pirat_mail_smtp_user }}
+      - PIRAT_SENDER_MAIL_PASSWORD={{ pirat_mail_smtp_password }}
+      - PIRAT_INTERNAL_RECEIVER_MAIL={{ pirat_mail_bcc_address }}
+      - PIRAT_GOOGLE_API_KEY={{ pirat_google_api_key }}
+      - PIRAT_GOOGLE_RECAPTCHA_SECRET={{ pirat_google_recaptcha_secret }}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+{% if pirat_backend_is_development is sameas true %}
+      - ASPNETCORE_ENVIRONMENT=development
+{% endif %}
+{% if pirat_backend_docker_environment_additional is iterable and pirat_backend_docker_environment_additional|length > 0 %}
+{% for env in pirat_backend_docker_environment_additional %}
+      - {{ env }}
+{% endfor %}
+{% endif %}
+{% if pirat_backend_docker_volumes is iterable  and pirat_backend_docker_volumes|length > 0 %}
+    volumes:
+{% for volume in pirat_backend_docker_volumes %}
+      - {{ volume }}
+{% endfor %}
+{% endif %}
+
+{% if pirat_postgres_use_docker is sameas true %}
+  postgres:
+    image: {{ pirat_postgres_docker_image }}:{{ pirat_postgres_docker_image_tag }}
+    networks:
+      - database
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      - POSTGRES_PASSWORD={{ pirat_postgres_docker_dbpassword }}
+      - POSTGRES_USER={{ pirat_postgres_docker_dbuser }}
+      - POSTGRES_DB={{ pirat_postgres_docker_dbname }}
+{% if pirat_postgres_persistence is sameas true %}
+    volumes:
+      - {{ pirat_postgres_persistence_dir }}:/var/lib/postgresql/data
+{% endif %}
+{% if pirat_postgres_docker_volumes is iterable and  pirat_postgres_docker_volumes|length > 0%}
+{% for volume in pirat_postgres_docker_volumes %}
+      - {{ volume }}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+
+networks:
+  app:
+{% if pirat_postgres_use_docker is sameas true %}
+  database:
+{% endif %}

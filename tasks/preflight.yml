@@ -1,0 +1,54 @@
+---
+
+- name: Check requirements
+  block:
+    - name: check if service manager is systemd
+      fail:
+        msg: Pirat-tool is only compatible with systemd, for now. Sorry!
+      when: "ansible_service_mgr != 'systemd'"
+
+    - name: check if docker is installed
+      command:
+          cmd: which docker
+      ignore_errors: true
+      register: docker_check
+
+    - name: fail if docker is not installed
+      fail:
+        msg: Docker has to be installed!
+      when: docker_check.rc != 0
+
+    - name: check if docker-compose is installed
+      command:
+          cmd: which docker-compose
+      ignore_errors: true
+      register: docker_compose_check
+
+    - name: fail if docker-compose is not installed
+      fail:
+        msg: docker-compose has to be installed!
+      when: docker_compose_check.rc != 0
+
+    - name: check if deployment user exists
+      command: grep {{ pirat_deployment_user }} -q /etc/passwd
+      register: deployment_user_present
+      changed_when: false
+
+    - fail:
+        msg: Deployment user >> {{ pirat_deployment_user }} << does not exist
+      when: deployment_user_present is changed
+
+    - name: check if deployment group exists
+      command: grep {{ pirat_deployment_group }} -q /etc/group
+      register: deployment_group_present
+      changed_when: false
+
+    - fail:
+        msg: Deployment group >> {{ pirat_deployment_group }} << does not exist
+      when: deployment_group_present is changed
+  rescue:
+    - fail:
+        msg: One or more requirements for deployment are not met. Exiting...
+
+- set_fact:
+    docker_compose_path: "{{ docker_compose_check.stdout }}"

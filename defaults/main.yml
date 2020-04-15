@@ -1,0 +1,62 @@
+---
+# general
+pirat_deployment_directory: /opt/pirat/
+pirat_deployment_user: root
+pirat_deployment_group: docker
+
+# SystemD service
+pirat_systemd_service_name: pirat
+pirat_systemd_service_start: true
+pirat_systemd_service_enable: true
+
+# Frontend
+## Docker
+pirat_frontend_docker_image: covid19pirat/pirat-frontend
+pirat_frontend_docker_image_tag: stable
+pirat_frontend_docker_listen_ip: 127.0.0.1
+pirat_frontend_docker_listen_port: 8081
+pirat_frontend_docker_environment_additional: []
+pirat_frontend_docker_volumes: []
+
+# Backend
+## Docker
+pirat_backend_docker_image: covid19pirat/pirat-backend
+pirat_backend_docker_image_tag: stable
+pirat_backend_docker_map_port: false
+pirat_backend_docker_listen_ip: 127.0.0.1
+pirat_backend_docker_listen_port: 5000
+pirat_backend_docker_environment_additional: []
+pirat_backend_docker_volumes: []
+## environment
+pirat_backend_is_development: false
+## Configuration
+pirat_backend_admin_key: JackSparrow
+## Database access
+pirat_database_host: postgres
+pirat_database_port: 5432
+pirat_database_dbname: pirat
+pirat_database_user: pirat
+pirat_database_password: CAPTAIN_Jack_Sparrow
+## Google API
+pirat_google_api_key: nope
+pirat_google_recaptcha_secret: nope
+## Mail
+pirat_mail_sender_address: pirat@localhost
+pirat_mail_bcc_address: pirat@localhost
+pirat_mail_smtp_host: localhost
+pirat_mail_smtp_user: pirat
+pirat_mail_smtp_password: pirat
+## Link to website
+pirat_url: http://localhost
+
+# Postgres
+## Docker
+pirat_postgres_use_docker: true
+pirat_postgres_docker_image: postgres
+pirat_postgres_docker_image_tag: 12
+pirat_postgres_docker_dbname: "{{ pirat_database_dbname }}"
+pirat_postgres_docker_dbuser: "{{ pirat_database_user }}"
+pirat_postgres_docker_dbpassword: "{{ pirat_database_password }}"
+pirat_postgres_persistence: true
+pirat_postgres_persistence_dir: /data/docker/pirat/postgres
+pirat_postgres_docker_volumes: []

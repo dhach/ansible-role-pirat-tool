@@ -1,0 +1,17 @@
+galaxy_info:
+  role_name: dhach.pirat_tool
+  author: dhach
+  description: "Install the Pandemic Important Resource Allocation Tool (PIRAT)"
+  license: GPL-3.0-only
+
+  min_ansible_version: 2.8
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+
+  galaxy_tags: []

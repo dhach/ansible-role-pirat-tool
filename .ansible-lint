@@ -1,0 +1,7 @@
+use_default_rules: true
+
+skip_list:
+  - '502'  # don't alert if an unnamed task is encountered
+
+exclude_paths:
+  - ./venv/
