@@ -1,5 +1,4 @@
 galaxy_info:
-  role_name: dhach.pirat_tool
   author: dhach
   description: "Install the Pandemic Important Resource Allocation Tool (PIRAT)"
   license: GPL-3.0-only
