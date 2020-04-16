@@ -1,5 +1,7 @@
 # pirat-tool
 
+[![Build Status](https://travis-ci.org/dhach/ansible-role-pirat-tool.svg?branch=master)](https://travis-ci.org/dhach/ansible-role-pirat-tool)
+
 This role deploys all components necessary for running the [PIRAT-Tool](http://pirat-tool.com).
 
 Source Code for PIRAT-Tool is available on Github: [COVID19-PIRAT](https://github.com/COVID19-PIRAT)
@@ -149,6 +151,10 @@ Including an example of how to use your role (for instance, with variables passe
         pirat_database_password: CorrectHorseBatteryStable
 
 (You might want to consider using Ansible Vault for any passwords or sensitive information.)
+
+## Testing
+
+Testing is done with Molecule and Travis. It encompasses a complete run of the playbook with default values.
 
 ## License
 
