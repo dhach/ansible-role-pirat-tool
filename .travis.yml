@@ -6,15 +6,15 @@ services:
 
 env:
   global:
-    - ROLE_NAME=dhach.pirat_tool
+    - ROLE_NAME=pirat_tool
 
 install:
   - python -m pip -q install molecule yamllint ansible-lint docker
 
 before_script:
   - cd ../
-  - mv ansible-role-pirat-tool $ROLE_NAME
-  - cd $ROLE_NAME
+  - mv ansible-role-pirat-tool dhach.$ROLE_NAME
+  - cd dhach.$ROLE_NAME
 
 script:
   - molecule test
