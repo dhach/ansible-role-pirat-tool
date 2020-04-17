@@ -26,13 +26,9 @@ Where and as whom to deploy the docker-compose file. Also controls as which user
     pirat_deployment_user: root
     pirat_deployment_group: docker
 
-Controls the name of the SystemD service file and if to start it after installation:
+You can set the name of the systemD service:
 
     pirat_systemd_service_name: pirat
-    pirat_systemd_service_start: true
-    pirat_systemd_service_enable: true
-
-*Note*: This does not restart the applications if they're already running!
 
 ### Frontend
 
