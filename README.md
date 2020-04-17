@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/dhach/ansible-role-pirat-tool.svg?branch=master)](https://travis-ci.org/dhach/ansible-role-pirat-tool)
 
-This role deploys all components necessary for running the [PIRAT-Tool](http://pirat-tool.com).
+This role deploys all components necessary for running the [PIRAT-Tool](http://pirat-tool.com). Source Code for PIRAT-Tool is available on Github: [COVID19-PIRAT](https://github.com/COVID19-PIRAT)
 
-Source Code for PIRAT-Tool is available on Github: [COVID19-PIRAT](https://github.com/COVID19-PIRAT)
+Please note that this role deploys a customized software. You'll probably not be able to use it out-of-the-box and for your purposes. Instead, use this Ansible role as an easy example on how to write one yourself.
 
 ## Requirements
 
