@@ -6,8 +6,6 @@ pirat_deployment_group: docker
 
 # SystemD service
 pirat_systemd_service_name: pirat
-pirat_systemd_service_start: true
-pirat_systemd_service_enable: true
 
 # Frontend
 ## Docker
