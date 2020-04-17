@@ -30,5 +30,6 @@
   roles:
     - geerlingguy.docker
   vars:
+    docker_service_state: started
     docker_restart_handler_state: stopped
     docker_service_enabled: false
