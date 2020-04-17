@@ -23,4 +23,9 @@
       output_encoding: utf-8
       backup: true
 
+- name: pull images to speed up service start
+  command:
+      cmd: "docker-compose -f {{ pirat_deployment_directory }}/docker-compose.yml pull"
+## we do not use the ansible module docker_compose, because this requires an additional python library on the target
+
 - include_tasks: systemd.yml
