@@ -50,6 +50,7 @@ services:
       - PIRAT_INTERNAL_RECEIVER_MAIL={{ pirat_mail_bcc_address }}
       - PIRAT_GOOGLE_API_KEY={{ pirat_google_api_key }}
       - PIRAT_GOOGLE_RECAPTCHA_SECRET={{ pirat_google_recaptcha_secret }}
+      - PIRAT_SWAGGER_PREFIX_PATH={{ pirat_backend_swagger_prefix_path }}
       - ASPNETCORE_URLS=http://0.0.0.0:5000
 {% if pirat_backend_is_development is sameas true %}
       - ASPNETCORE_ENVIRONMENT=development
@@ -79,15 +80,12 @@ services:
       - POSTGRES_PASSWORD={{ pirat_postgres_docker_dbpassword }}
       - POSTGRES_USER={{ pirat_postgres_docker_dbuser }}
       - POSTGRES_DB={{ pirat_postgres_docker_dbname }}
-{% if pirat_postgres_persistence is sameas true %}
     volumes:
+      - {{ pirat_deployment_directory }}/database_init/:/docker-entrypoint-initdb.d/
+{% if pirat_postgres_persistence is sameas true %}
       - {{ pirat_postgres_persistence_dir }}:/var/lib/postgresql/data
 {% endif %}
-{% if pirat_postgres_docker_volumes is iterable and  pirat_postgres_docker_volumes|length > 0%}
-{% for volume in pirat_postgres_docker_volumes %}
-      - {{ volume }}
-{% endfor %}
-{% endif %}
+
 
 {% endif %}
 

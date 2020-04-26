@@ -3,14 +3,26 @@
 
 - include_tasks: preflight.yml
 
-- name: ensure deployment directory exists
+- name: ensure deployment directories exist
   file:
-    path: "{{ pirat_deployment_directory }}"
+    path: "{{ dir }}"
     state: directory
     owner: "{{ pirat_deployment_user }}"
     group: "{{ pirat_deployment_group }}"
     mode: 0750
     recurse: true
+  loop:
+    - "{{ pirat_deployment_directory }}"
+    - "{{ pirat_deployment_directory }}/database_init"
+  loop_control:
+    loop_var: dir
+
+- name: get database init script
+  get_url:
+    url: https://raw.githubusercontent.com/COVID19-PIRAT/backend/master/init.sql
+    dest: "{{ pirat_deployment_directory }}/database_init/init.sql"
+    mode: 0644
+  when: pirat_postgres_use_docker
 
 - name: deploy docker-compose.yml
   template:
