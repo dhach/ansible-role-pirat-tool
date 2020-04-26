@@ -77,6 +77,10 @@ Key/Password for the admin page:
 
     pirat_backend_admin_key: JackSparrow
 
+Prefix for Swagger Path
+
+pirat_backend_swagger_prefix_path: /swagger
+
 Database credentials.
 If you choose to have the database deployed with Docker, these values will be used to set up the database.
 
@@ -126,10 +130,6 @@ If you would like to map the database port, modify accordingly:
     pirat_postgres_map_port: false
     pirat_postgres_docker_listen_ip: 127.0.0.1
     pirat_postgres_docker_listen_port: 5432
-
-If the container should map additional volumes to the host, you can list the mappings:
-
-    pirat_postgres_docker_volumes: []
 
 ## Example Playbook
 
