@@ -26,10 +26,11 @@ pirat_backend_docker_listen_port: 5000
 pirat_backend_docker_environment_additional: []
 pirat_backend_docker_volumes: []
 ## environment
+pirat_webapp_environment: production
 pirat_backend_is_development: false
 ## Configuration
 pirat_backend_admin_key: JackSparrow
-pirat_backend_swagger_prefix_path: /swagger
+pirat_backend_swagger_prefix_path: /api
 ## Database access
 pirat_database_host: postgres
 pirat_database_port: 5432

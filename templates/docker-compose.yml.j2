@@ -51,6 +51,7 @@ services:
       - PIRAT_GOOGLE_API_KEY={{ pirat_google_api_key }}
       - PIRAT_GOOGLE_RECAPTCHA_SECRET={{ pirat_google_recaptcha_secret }}
       - PIRAT_SWAGGER_PREFIX_PATH={{ pirat_backend_swagger_prefix_path }}
+      - PIRAT_WEBAPP_ENVIRONMENT={{ pirat_webapp_environment }}
       - ASPNETCORE_URLS=http://0.0.0.0:5000
 {% if pirat_backend_is_development is sameas true %}
       - ASPNETCORE_ENVIRONMENT=development

@@ -69,17 +69,21 @@ Optionally define additional environment variables or docker volumes to use:
 
 **Application**
 
+If running in testing or development environments, set these to "testproduction" or "development":
+
+    pirat_webapp_environment: production
+
 If set to true, will enable access to the Swagger UI under /api/swagger/
 
     pirat_backend_is_development: false
 
+You can change the prefix of the Swagger UI to something else:
+
+pirat_backend_swagger_prefix_path: /api
+
 Key/Password for the admin page:
 
     pirat_backend_admin_key: JackSparrow
-
-Prefix for Swagger Path
-
-pirat_backend_swagger_prefix_path: /swagger
 
 Database credentials.
 If you choose to have the database deployed with Docker, these values will be used to set up the database.
