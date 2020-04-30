@@ -8,3 +8,6 @@
     pirat_postgres_persistence: false
     pirat_backend_docker_map_port: false
     pirat_database_password: FIND_ME
+    pirat_postgres_additional_config:
+      - shared_buffers=256MB
+      - max_connections=234
