@@ -77,6 +77,13 @@ services:
     ports:
       - {{ pirat_postgres_docker_listen_ip }}:{{ pirat_postgres_docker_listen_port }}:5432
 {% endif %}
+{% if pirat_postgres_additional_config|length > 0 %}
+    command:
+{% for config in pirat_postgres_additional_config %}
+      - -c
+      - {{ config }}
+{% enfor %}
+{% endif %}
     environment:
       - POSTGRES_PASSWORD={{ pirat_postgres_docker_dbpassword }}
       - POSTGRES_USER={{ pirat_postgres_docker_dbuser }}
