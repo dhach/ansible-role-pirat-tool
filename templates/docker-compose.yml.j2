@@ -82,7 +82,7 @@ services:
 {% for config in pirat_postgres_additional_config %}
       - -c
       - {{ config }}
-{% enfor %}
+{% endfor %}
 {% endif %}
     environment:
       - POSTGRES_PASSWORD={{ pirat_postgres_docker_dbpassword }}
